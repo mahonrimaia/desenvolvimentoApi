@@ -19,7 +19,7 @@ public class BoletModel {
 
     @NotBlank(message = "Campo Obrigatório")
     @Column(name = "line", length = 20, nullable = false)
-    private String codigoDeBarras;
+    private String codigoDeBarras ;
 
     @NotBlank(message = "Campo Obrigatório")
     @DateTimeFormat

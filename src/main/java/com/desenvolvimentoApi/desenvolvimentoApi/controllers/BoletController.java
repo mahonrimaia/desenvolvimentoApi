@@ -19,7 +19,7 @@ public class BoletController {
         this.repository = repository;
     }
 
-    @PostMapping()
+    @PostMapping("/new")
     public ResponseEntity createNewBoleto(@RequestBody @Validated BoletModel boleto){
         Long response = repository.save(boleto).getId();
         if (response != null){
