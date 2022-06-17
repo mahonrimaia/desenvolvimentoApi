@@ -29,8 +29,7 @@ public class BoletModel {
     public BoletModel() {
     }
 
-    public BoletModel(Long id, String codigoDeBarras, String dateExpired, String paymentId) {
-        this.id = id;
+    public BoletModel(String codigoDeBarras, String dateExpired) {
         this.codigoDeBarras = codigoDeBarras;
         this.dateExpired = dateExpired;
     }
