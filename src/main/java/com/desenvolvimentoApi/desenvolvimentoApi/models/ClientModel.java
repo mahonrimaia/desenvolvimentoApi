@@ -24,6 +24,9 @@ public class ClientModel {
     @Column(name = "cpf", length = 11, nullable = false)
     private String cpf;
 
+    public ClientModel() {
+    }
+
     public ClientModel(Long id, String name, String email, String cpf) {
         this.id = id;
         this.name = name;
@@ -72,4 +75,5 @@ public class ClientModel {
                 ", cpf='" + cpf + '\'' +
                 '}';
     }
+
 }
