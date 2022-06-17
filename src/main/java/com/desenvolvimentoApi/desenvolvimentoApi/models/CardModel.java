@@ -25,15 +25,15 @@ public class CardModel {
     private Integer cvv;
 
     @Column(name = "month_expire", length = 2)
-    private String month_expire;
+    private Integer month_expire;
 
     @Column(name = "year_expire", length = 2)
-    private String year_expire;
+    private Integer year_expire;
 
     public CardModel(){
     }
 
-    public CardModel(Long id, String name, String number, Integer cvv, String month_expire, String year_expire) {
+    public CardModel(Long id, String name, String number, Integer cvv, Integer month_expire, Integer year_expire) {
         this.id = id;
         this.name = name;
         this.number = number;
@@ -74,19 +74,19 @@ public class CardModel {
         this.cvv = cvv;
     }
 
-    public String getMonth_expire() {
+    public Integer getMonth_expire() {
         return month_expire;
     }
 
-    public void setMonth_expire(String month_expire) {
+    public void setMonth_expire(Integer month_expire) {
         this.month_expire = month_expire;
     }
 
-    public String getYear_expire() {
+    public Integer getYear_expire() {
         return year_expire;
     }
 
-    public void setYear_expire(String year_expire) {
+    public void setYear_expire(Integer year_expire) {
         this.year_expire = year_expire;
     }
 }
