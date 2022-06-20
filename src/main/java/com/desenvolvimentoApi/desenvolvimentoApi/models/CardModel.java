@@ -33,8 +33,7 @@ public class CardModel {
     public CardModel(){
     }
 
-    public CardModel(Long id, String name, String number, Integer cvv, Integer month_expire, Integer year_expire) {
-        this.id = id;
+    public CardModel(String name, String number, Integer cvv, Integer month_expire, Integer year_expire) {
         this.name = name;
         this.number = number;
         this.cvv = cvv;

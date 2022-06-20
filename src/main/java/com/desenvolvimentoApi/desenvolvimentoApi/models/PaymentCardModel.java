@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 @Entity(name="payment_card")
@@ -19,8 +20,10 @@ public class PaymentCardModel {
     @NotNull
     private Double value;
 
-    @NotNull
     private Long card_id;
+
+    @Transient
+    private CardModel card;
 
     public PaymentCardModel() {
     }
@@ -61,6 +64,14 @@ public class PaymentCardModel {
 
     public void setCard_id(Long card_id) {
         this.card_id = card_id;
+    }
+
+    public CardModel getCard() {
+        return card;
+    }
+
+    public void setCard(CardModel card) {
+        this.card = card;
     }
 
     @Override
