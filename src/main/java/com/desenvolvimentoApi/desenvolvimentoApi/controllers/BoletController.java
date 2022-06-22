@@ -13,15 +13,16 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/boleto")
 public class BoletController {
-    private BoletRepository repository;
+    private BoletRepository repositoryBolet;
+
 
     public BoletController(BoletRepository repository) {
-        this.repository = repository;
+        this.repositoryBolet = repository;
     }
 
     @PostMapping("/new")
     public ResponseEntity createNewBoleto(@RequestBody @Validated BoletModel boleto){
-        Long response = repository.save(boleto).getId();
+        Long response = repositoryBolet.save(boleto).getId();
         if (response != null){
             return ResponseEntity.status(HttpStatus.CREATED).body(boleto);
         }
@@ -30,7 +31,7 @@ public class BoletController {
 
     @GetMapping("/all")
     public ResponseEntity showBoletoList(){
-        List<BoletModel> response = repository.findAll();
+        List<BoletModel> response = repositoryBolet.findAll();
         if (response != null){
             return ResponseEntity.status(HttpStatus.ACCEPTED).body(response);
         }
@@ -38,7 +39,7 @@ public class BoletController {
     }
     @GetMapping("/{id}")
     public ResponseEntity showBoletoId(@PathVariable("id") long id){
-        Optional<BoletModel> boleto = repository.findById(id);
+        Optional<BoletModel> boleto = repositoryBolet.findById(id);
         if (boleto.isPresent()){
             return ResponseEntity.status(HttpStatus.ACCEPTED).body(boleto);
         }
