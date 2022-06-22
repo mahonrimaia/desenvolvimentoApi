@@ -1,7 +1,6 @@
 package com.desenvolvimentoApi.desenvolvimentoApi.models;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Entity(name = "payment_boleto")

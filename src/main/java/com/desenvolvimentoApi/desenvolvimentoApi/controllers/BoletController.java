@@ -28,7 +28,7 @@ public class BoletController {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Verifique os dados informado");
     }
 
-    @GetMapping("/bolet/all")
+    @GetMapping("/all")
     public ResponseEntity showBoletoList(){
         List<BoletModel> response = repository.findAll();
         if (response != null){
@@ -36,7 +36,7 @@ public class BoletController {
         }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Não existe boleto cadastrado");
     }
-    @GetMapping("/bolet/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity showBoletoId(@PathVariable("id") long id){
         Optional<BoletModel> boleto = repository.findById(id);
         if (boleto.isPresent()){
