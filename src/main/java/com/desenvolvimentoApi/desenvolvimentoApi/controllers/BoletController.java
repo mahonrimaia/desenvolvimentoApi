@@ -4,7 +4,6 @@ import com.desenvolvimentoApi.desenvolvimentoApi.models.BoletModel;
 import com.desenvolvimentoApi.desenvolvimentoApi.repositories.BoletRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,15 +17,6 @@ public class BoletController {
 
     public BoletController(BoletRepository repository) {
         this.repositoryBolet = repository;
-    }
-
-    @PostMapping("/new")
-    public ResponseEntity createNewBoleto(@RequestBody @Validated BoletModel boleto){
-        Long response = repositoryBolet.save(boleto).getId();
-        if (response != null){
-            return ResponseEntity.status(HttpStatus.CREATED).body(boleto);
-        }
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Verifique os dados informado");
     }
 
     @GetMapping("/all")

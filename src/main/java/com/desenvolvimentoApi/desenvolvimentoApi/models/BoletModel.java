@@ -22,6 +22,7 @@ public class BoletModel {
     private String codigoDeBarras ;
 
     @NotBlank(message = "Campo Obrigatório")
+    @DateTimeFormat
     @Column(name = "date_Expired", length = 10, nullable = false)
     private String dateExpired;
 
