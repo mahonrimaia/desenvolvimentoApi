@@ -15,8 +15,8 @@ public class CardModel {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "name", length = 60)
-    private String name;
+    @Column(name = "holder", length = 60)
+    private String holder;
 
     @Column(name = "number", length = 16)
     private String number;
@@ -34,7 +34,7 @@ public class CardModel {
     }
 
     public CardModel(String name, String number, Integer cvv, Integer month_expire, Integer year_expire) {
-        this.name = name;
+        this.holder = name;
         this.number = number;
         this.cvv = cvv;
         this.month_expire = month_expire;
@@ -49,12 +49,12 @@ public class CardModel {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getHolder() {
+        return holder;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setHolder(String holder) {
+        this.holder = holder;
     }
 
     public String getNumber() {

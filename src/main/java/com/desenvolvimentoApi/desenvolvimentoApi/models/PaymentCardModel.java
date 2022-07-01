@@ -14,13 +14,15 @@ public class PaymentCardModel {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @NotNull
     private Long client_id;
 
     @NotNull
     private Double value;
 
     private Long card_id;
+
+    @Transient
+    private ClientModel client;
 
     @Transient
     private CardModel card;
@@ -72,6 +74,14 @@ public class PaymentCardModel {
 
     public void setCard(CardModel card) {
         this.card = card;
+    }
+
+    public ClientModel getClient() {
+        return client;
+    }
+
+    public void setClient(ClientModel client) {
+        this.client = client;
     }
 
     @Override

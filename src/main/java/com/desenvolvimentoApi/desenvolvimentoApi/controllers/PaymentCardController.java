@@ -1,15 +1,14 @@
 package com.desenvolvimentoApi.desenvolvimentoApi.controllers;
 
 import com.desenvolvimentoApi.desenvolvimentoApi.models.CardModel;
+import com.desenvolvimentoApi.desenvolvimentoApi.models.ClientModel;
 import com.desenvolvimentoApi.desenvolvimentoApi.models.PaymentCardModel;
 import com.desenvolvimentoApi.desenvolvimentoApi.repositories.CardRepository;
+import com.desenvolvimentoApi.desenvolvimentoApi.repositories.ClientRepository;
 import com.desenvolvimentoApi.desenvolvimentoApi.repositories.PaymentCardRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.Optional;
@@ -18,23 +17,43 @@ import java.util.Optional;
 @RequestMapping("/payment/card")
 public class PaymentCardController {
 
-    private CardRepository cardRepository;
+    private final CardRepository cardRepository;
 
-    private PaymentCardRepository paymentRepository;
+    private final PaymentCardRepository paymentRepository;
 
-    public PaymentCardController(CardRepository cardRepository, PaymentCardRepository paymentRepository) {
+    private final ClientRepository clientRepository;
+
+    public PaymentCardController(CardRepository cardRepository, PaymentCardRepository paymentRepository, ClientRepository clientRepository) {
         this.cardRepository = cardRepository;
         this.paymentRepository = paymentRepository;
+        this.clientRepository = clientRepository;
     }
 
     @PostMapping
-    public ResponseEntity paymentWithCard(@RequestBody @Valid PaymentCardModel payment) {
+    @CrossOrigin(origins = "http://localhost:3000")
+    public ResponseEntity<PaymentCardModel> paymentWithCard(@RequestBody @Valid PaymentCardModel payment) {
 
         Optional<CardModel> cardFromDatabase = cardRepository.findByNumber(payment.getCard().getNumber());
+        Optional<ClientModel> clientFromDatabase = clientRepository.findByCpfAndEmail(payment.getClient().getCpf(), payment.getClient().getEmail());
+
+        ClientModel client = new ClientModel();
+
+        if(clientFromDatabase.isPresent()) {
+            client.setId(clientFromDatabase.get().getId());
+            client.setName(clientFromDatabase.get().getName());
+            client.setCpf(clientFromDatabase.get().getCpf());
+            client.setEmail(clientFromDatabase.get().getEmail());
+        } else {
+            client.setName(payment.getClient().getName());
+            client.setCpf(payment.getClient().getCpf());
+            client.setEmail(payment.getClient().getEmail());
+
+            client = clientRepository.save(client);
+        }
 
         if (cardFromDatabase.isPresent()) {
             PaymentCardModel paymentWithCard = new PaymentCardModel(
-                    payment.getClient_id(),
+                    client.getId(),
                     payment.getValue(),
                     cardFromDatabase.get().getId()
             );
@@ -46,7 +65,7 @@ public class PaymentCardController {
             return ResponseEntity.status(HttpStatus.CREATED).body(paymentWithCard);
         } else {
             CardModel card = new CardModel(
-                    payment.getCard().getName(),
+                    payment.getCard().getHolder(),
                     payment.getCard().getNumber(),
                     payment.getCard().getCvv(),
                     payment.getCard().getMonth_expire(),
@@ -56,7 +75,7 @@ public class PaymentCardController {
             CardModel cardSaved = cardRepository.save(card);
 
             PaymentCardModel paymentWithCard = new PaymentCardModel(
-                    payment.getClient_id(),
+                    client.getId(),
                     payment.getValue(),
                     cardSaved.getId()
             );
@@ -67,5 +86,6 @@ public class PaymentCardController {
 
             return ResponseEntity.status(HttpStatus.CREATED).body(paymentWithCard);
         }
+
     }
 }
