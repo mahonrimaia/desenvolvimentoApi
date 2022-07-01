@@ -16,6 +16,8 @@ public class PaymentBoletModel {
     private double value;
     @Column(name = "bolet_id")
     private long bolet_id;
+    @Transient
+    private  ClientModel client;
 
     public PaymentBoletModel(){
 
@@ -25,6 +27,14 @@ public class PaymentBoletModel {
         this.client_id = client_id;
         this.value = value;
         this.bolet_id = bolet_id;
+
+    }
+    public ClientModel getClient() {
+        return client;
+    }
+
+    public void setClient(ClientModel client) {
+        this.client = client;
     }
 
     public long getId() {

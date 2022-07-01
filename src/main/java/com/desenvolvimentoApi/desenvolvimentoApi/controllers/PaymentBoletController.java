@@ -30,20 +30,37 @@ public class PaymentBoletController {
     }
 
     @PostMapping("/new")
+    @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity paymentBolet(@RequestBody @Valid PaymentBoletModel payment) {
-        Optional<ClientModel> customer = repositoryClient.findById(payment.getClient_id());
+        Optional<ClientModel> customer = repositoryClient.findByCpfAndEmail(payment.getClient().getCpf(),payment.getClient().getEmail());
+       ClientModel client = new ClientModel();
         if (customer.isPresent()){
-            BoletModel bolet = new BoletModel("09876556532377625660", "23/06/2022");
+            BoletModel bolet = new BoletModel("09876556532377625888", "12/07/2022");
             BoletModel boletSaved = repositoryBolet.save(bolet);
             PaymentBoletModel payment_bolet = new PaymentBoletModel(
-                    payment.getClient_id(),
+                    customer.get().getId(),
                     payment.getValue(),
                     boletSaved.getId()
             );
             PaymentBoletModel payment_bolet_saved = repositoryPayment.save(payment_bolet);
             return ResponseEntity.status(HttpStatus.OK).body(payment_bolet_saved);
-            }
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Cliente não encontrado");
+        } else {
+            client.setName(payment.getClient().getName());
+            client.setCpf(payment.getClient().getCpf());
+            client.setEmail(payment.getClient().getEmail());
+
+            client = repositoryClient.save(client);
+
+            BoletModel bolet = new BoletModel("09876556532377625777", "10/07/2022");
+            BoletModel boletSaved = repositoryBolet.save(bolet);
+            PaymentBoletModel payment_bolet = new PaymentBoletModel(
+                    client.getId(),
+                    payment.getValue(),
+                    boletSaved.getId()
+            );
+            PaymentBoletModel payment_bolet_saved = repositoryPayment.save(payment_bolet);
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(payment);
     }
 
     @GetMapping ("/all")
