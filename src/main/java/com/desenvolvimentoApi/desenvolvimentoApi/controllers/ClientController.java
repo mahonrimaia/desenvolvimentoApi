@@ -19,7 +19,7 @@ public class ClientController {
         this.repository = repository;
     }
 
-    @GetMapping ("/customer/all")
+    @GetMapping ("/all")
    public ResponseEntity showClientList(){
        List<ClientModel> response = repository.findAll();
        if (response != null){
@@ -27,7 +27,7 @@ public class ClientController {
        }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Não existe cliente cadastrado");
     }
-    @GetMapping("/customer/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity showClienteId(@PathVariable("id") long id){
         Optional<ClientModel> customer = repository.findById(id);
         if (customer.isPresent()){

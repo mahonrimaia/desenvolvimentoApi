@@ -18,19 +18,18 @@ public class BoletModel {
     private Long id;
 
     @NotBlank(message = "Campo Obrigatório")
-    @Column(name = "line", length = 20, nullable = false)
+    @Column(name = "line_code", length = 20, nullable = false)
     private String codigoDeBarras ;
 
     @NotBlank(message = "Campo Obrigatório")
     @DateTimeFormat
-    @Column(name = "vencimento", length = 8, nullable = false)
+    @Column(name = "date_Expired", length = 10, nullable = false)
     private String dateExpired;
 
     public BoletModel() {
     }
 
-    public BoletModel(Long id, String codigoDeBarras, String dateExpired, String paymentId) {
-        this.id = id;
+    public BoletModel(String codigoDeBarras, String dateExpired) {
         this.codigoDeBarras = codigoDeBarras;
         this.dateExpired = dateExpired;
     }
